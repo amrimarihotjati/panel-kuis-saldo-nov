@@ -1,0 +1,6 @@
+[06-Aug-2024 23:32:06 Asia/Jakarta] PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 4198400 bytes) in /home/amrq8564/public_html/kuissaldo.amrimarihotjati.my.id/vendor/laravel/framework/src/Illuminate/Http/JsonResponse.php on line 86
+[14-Aug-2024 20:52:53 Asia/Jakarta] PHP Warning:  require(/home/amrq8564/public_html/kuissaldo.amrimarihotjati.my.id/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /home/amrq8564/public_html/kuissaldo.amrimarihotjati.my.id/public/index.php on line 13
+[14-Aug-2024 20:52:53 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/amrq8564/public_html/kuissaldo.amrimarihotjati.my.id/public/../vendor/autoload.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/amrq8564/public_html/kuissaldo.amrimarihotjati.my.id/public/index.php:13
+Stack trace:
+#0 {main}
+  thrown in /home/amrq8564/public_html/kuissaldo.amrimarihotjati.my.id/public/index.php on line 13
