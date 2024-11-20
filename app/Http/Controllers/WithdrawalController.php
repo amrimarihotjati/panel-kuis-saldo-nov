@@ -13,6 +13,7 @@ use App\Models\RewardsAdPoints;
 use App\Models\HistoryQuiz;
 use App\Models\AdsCounterTemporary;
 use App\Models\QuizCompleted;
+use App\Models\BlacklistNumberWallet;
 
 use Illuminate\Http\Request;
 
@@ -253,6 +254,10 @@ class WithdrawalController extends Controller
 
         if ($mWithdrawal) {
             if ($responWithdrawalStatus == 1) {
+                $mBlacklistNumberWallet = BlacklistNumberWallet::where('number_wallet', $mWithdrawal->payment_account)->first();
+                if ($mBlacklistNumberWallet) {
+                    return response()->json(['message' => 'TIDAK DAPAT DISETUJUI, NOMOR AKUN INI MASUK DALAM BLACKLIST!!'], 500);
+                }
                 $playerGetBonusCommission = RefferalPlayer::where('refferaled_registered_player', $mPlayer->id)
                 ->where('player_pkg', $mPlayer->player_pkg)
                 ->first();

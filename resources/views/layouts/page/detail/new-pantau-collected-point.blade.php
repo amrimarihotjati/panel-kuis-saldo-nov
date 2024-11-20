@@ -199,7 +199,7 @@
                         </div>
 
                         <div class="row ms-1 me-1">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="card shadow-none border rounded-2">
                                     <div class="card-body">
                                         <h6 class="card-title text-success mb-0">Valid</h6>
@@ -209,21 +209,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="card shadow-none border rounded-2">
                                     <div class="card-body">
                                         <h6 class="card-title text-danger mb-0">Invalid</h6>
                                         <p class="h5 card-text fw-bold mt-0 text-muted" id="valueHistoryQuizInvalid">
-                                            Memuat...</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="card shadow-none border rounded-2">
-                                    <div class="card-body">
-                                        <h6 class="card-title text-success mb-0">Attention</h6>
-                                        <p class="h5 card-text fw-bold mt-0 text-muted" id="valueHistoryQuizWatched">
                                             Memuat...</p>
                                     </div>
                                 </div>
@@ -697,12 +687,21 @@
                         className: 'align-middle text-center',
                         render: function(data, type, full, meta) {
                             var status;
-                            if (full.points - full.totalPointFromQuestionCategory - full.doublePoint == 0) {
-                                status = '<small class="fw-bold badge badge-sm bg-success">VALID</small>';
-                            } else if (full.points - full.totalPointFromQuestionCategory - full.doublePoint > 0) {
-                                status = '<small class="fw-bold badge badge-sm bg-danger">INVALID</small>';
+                            var isWithDouble = full.with_double_option;
+                            if (isWithDouble == 1) {
+                                if (full.points > (full.totalPointFromQuestionCategory + 300)) {
+                                    status = '<small class="fw-bold badge badge-sm bg-danger">INVALID</small>';
+                                } else {
+                                    status = '<small class="fw-bold badge badge-sm bg-success">VALID</small>';
+                                }
                             } else {
-                                status = '<small class="fw-bold badge badge-sm bg-warning">ATTENTION</small>';
+                                if (full.points == full.totalPointFromQuestionCategory) {
+                                    status = '<small class="fw-bold badge badge-sm bg-success">VALID</small>';
+                                } else if (full.points > full.totalPointFromQuestionCategory) {
+                                    status = '<small class="fw-bold badge badge-sm bg-danger">INVALID</small>';
+                                } else {
+                                    status = '<small class="fw-bold badge badge-sm bg-success">VALID</small>';
+                                }
                             }
                             return status;
                         }
@@ -711,15 +710,25 @@
                         data: null,
                         searchable: false,
                         className: 'align-middle',
-
                         render: function(data, type, full, meta) {
-                            var status;
-                            if (full.points - full.totalPointFromQuestionCategory - full.doublePoint == 0) {
-                                status = '<small class="text-primary">Hasil valid menunjukkan <b>tidak ada kecurangan</b></small>. <small>Selain valid, butuh perhatian lebih lanjut.</small>';
-                            } else if (full.points - full.totalPointFromQuestionCategory - full.doublePoint > 0) {
-                                status = '<small class="text-primary">Hasil invalid menunjukkan <b>ada indikasi kecurangan</b></small>';
+                           var status;
+                            var isWithDouble = full.with_double_option;
+                            if (isWithDouble == 1) {
+                                if (full.points > full.totalPointFromQuestionCategory) {
+                                    status = '<small class="text-primary">Hasil valid menunjukkan <b>tidak ada kecurangan</b></small>. <small>Selain valid, butuh perhatian lebih lanjut.</small>';
+                                } else if (full.points > (full.totalPointFromQuestionCategory + 500)) {
+                                    status = '<small class="text-primary">Hasil invalid menunjukkan <b>ada indikasi kecurangan</b></small>';
+                                } else {
+                                    status = '<small class="text-primary">Hasil valid menunjukkan <b>tidak ada kecurangan</b></small>. <small>Selain valid, butuh perhatian lebih lanjut.</small>';
+                                }
                             } else {
-                                status = '<small class="text-primary">Hasil attention menunjukkan <b>membutuhkan perhatian untuk validasi</b></small>';
+                                if (full.points == full.totalPointFromQuestionCategory) {
+                                    status = '<small class="text-primary">Hasil valid menunjukkan <b>tidak ada kecurangan</b></small>. <small>Selain valid, butuh perhatian lebih lanjut.</small>';
+                                } else if (full.points > full.totalPointFromQuestionCategory) {
+                                    status = '<small class="text-primary">Hasil invalid menunjukkan <b>ada indikasi kecurangan</b></small>';
+                                } else {
+                                   status = '<small class="text-primary">Hasil valid menunjukkan <b>tidak ada kecurangan</b></small>. <small>Selain valid, butuh perhatian lebih lanjut.</small>';
+                                }
                             }
                             return status;
                         }
@@ -756,20 +765,26 @@
                 initComplete: function(settings, json) {
                     let validCount = 0;
                     let invalidCount = 0;
-                    let attentionCount = 0;
                     this.api().data().each(function(data) {
-                        let hasil = data.points - data.totalPointFromQuestionCategory - data.doublePoint;
-                        if (hasil == 0) {
-                            validCount++;
-                        } else if (hasil > 0) {
-                            invalidCount++;
+                        let withDoubleOption = data.with_double_option;
+                        if (withDoubleOption == 1) {
+                            if (data.points > (data.totalPointFromQuestionCategory + 300)) {
+                                invalidCount++;
+                            } else {
+                                validCount++;
+                            }
                         } else {
-                            attentionCount++;
+                            if (data.points <= data.totalPointFromQuestionCategory) {
+                                validCount++;
+                            } else if (data.points > data.totalPointFromQuestionCategory) {
+                                invalidCount++;
+                            } else {
+                                validCount++;
+                            }
                         }
                     });
                     $('#valueHistoryQuizValid').text(validCount);
                     $('#valueHistoryQuizInvalid').text(invalidCount);
-                    $('#valueHistoryQuizWatched').text(attentionCount);
                 }
             });
 

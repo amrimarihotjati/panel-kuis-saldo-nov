@@ -47,6 +47,9 @@
             <li class="{{ Request::is('payment-method') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('goPaymentMethod') }}"><i class="fas fa-university"></i><span>Payment Method</span></a>
             </li>
+            <li class="{{ Request::is('blacklist-number-wallet') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('/blacklist-number-wallet') }}"><i class="fas fa-phone"></i><span>Blacklist Number</span></a>
+            </li>
             <li class="menu-header">Tools</li>
             <li class="{{ Request::is('jobservices/panel-setting') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('/jobservices/panel-setting') }}"><i class="fas fa-wrench"></i> <span>Panel Settings</span></a>

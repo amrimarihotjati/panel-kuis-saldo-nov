@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rewards-ad-points', [App\Http\Controllers\HomeController::class, 'goRewardsAdPoints'])->name('goRewardsAdPoints');
     Route::get('/dana-kaget', [App\Http\Controllers\HomeController::class, 'goDanaKaget'])->name('goDanaKaget');
     Route::get('/payment-method', [App\Http\Controllers\HomeController::class, 'goPaymentMethod'])->name('goPaymentMethod');
+    Route::get('/blacklist-number-wallet', [App\Http\Controllers\HomeController::class, 'goBlacklistNumberWallet'])->name('goBlacklistNumberWallet');
     // home ANALYTICS
     Route::get('/analytics/collected-points', [App\Http\Controllers\HomeController::class, 'goAnalyticsCollectedPoint'])->name('goAnalyticsCollectedPoint');
     Route::get('/analytics-data/collected-points/{app_pkg}/{startDate}/{endDate}', [App\Http\Controllers\HistoryCollectedPointController::class, 'getDTCollectedPointRange'])->name('loadAnalyticsCollectedPoints');
@@ -214,6 +215,11 @@ Route::middleware(['auth'])->group(function () {
     // WatchListPlayer
     Route::get('/watchlist-player/{app_pkg}', [App\Http\Controllers\WatchListPlayerController::class, 'getDTWatchListPlayer'])->name('watchlist-player');
     Route::get('/remove-player-from-watch-list/{player_id}', [App\Http\Controllers\WatchListPlayerController::class, 'removePlayerFromWatchList'])->name('removePlayerFromWatchList');
+
+    // BlackListNumber
+    Route::get('/dt-blacklist-number-wallet', [App\Http\Controllers\BlacklistNumberWalletController::class, 'getDTBlacklistNumber'])->name('getDTBlacklistNumber');
+    Route::post('/create-blacklist-number-wallet', [App\Http\Controllers\BlacklistNumberWalletController::class, 'createBlacklistNumber'])->name('createBlacklistNumber');
+    Route::get('/remove-blacklist-number-wallet/{id}', [App\Http\Controllers\BlacklistNumberWalletController::class, 'removeBlacklistNumber'])->name('removeBlacklistNumber');
 
     //JOBSERVICES
     Route::get('/jobservices/panel-setting', [App\Http\Controllers\PanelSettingController::class, 'getSettingList'])->name('getSettingList');

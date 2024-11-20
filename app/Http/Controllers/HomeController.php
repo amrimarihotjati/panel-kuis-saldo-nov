@@ -62,6 +62,11 @@ class HomeController extends Controller
         return view('layouts/page/payment-method-resources');
     }
 
+    public function goBlacklistNumberWallet(Request $request)
+    {
+        return view('layouts/page/blacklist-number-wallet-method-resources');
+    }
+
 
     // analyctics
     public function goAnalyticsCollectedPoint(Request $request)
