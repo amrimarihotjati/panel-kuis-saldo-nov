@@ -128,6 +128,8 @@
                                     <th class="align-middle">Withdraw By Nomor</th>
                                     <th class="align-middle">Last Ad Inters</th>
                                     <th class="align-middle">Last Ad Rewards</th>
+                                    <th class="align-middle">Kuis Valid</th>
+                                    <th class="align-middle">Kuis Invalid</th>
                                     <th class="align-middle">Metode Pembayaran Wallet</th>
                                     <th class="align-middle">Waktu Permintaan</th>
                                     <th class="align-middle">Aksi</th>
@@ -151,7 +153,7 @@
             processing: true,
             serverSide: true,
             order: [
-                [10, 'desc'],
+                [12, 'desc'],
                 [5, 'desc'],
                 [6, 'desc'],
                 [7, 'desc']
@@ -305,7 +307,7 @@
                     }
                 },
                 {
-                    data: 'withdraw_count_by_nomor',
+                    data: 'withd1212raw_count_by_nomor',
                     name: 'withdraw_count_by_nomor',
                     searchable: true,
                     className: 'align-middle text-center',
@@ -331,6 +333,26 @@
                     render: function(data, type, full, meta) {
                         return '<small class="fw-normal"><span class="fw-bold text-primary">' + full
                             .ad_rewards_count + '</span><br>ADS</small>';
+                    }
+                },
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    className: 'align-middle text-center',
+                    render: function(data, type, full, meta) {
+                        return '<small class="fw-bolder"><span class="fw-bold text-dark">' + full
+                            .validCountQuiz + '</span><br><span class="text-success">VALID</span></small>';
+                    }
+                },
+                {
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    className: 'align-middle text-center',
+                    render: function(data, type, full, meta) {
+                        return '<small class="fw-bolder"><span class="fw-bold text-dark">' + full
+                            .invalidCountQuiz + '</span><br><span class="text-danger">INVALID</span></small>';
                     }
                 },
                 {
@@ -448,16 +470,16 @@
                 var lastPaymentAccount = null;
                 var totalAmount = 0;
 
-                api.column(10, {
+                api.column(12, {
                     page: 'current'
                 }).data().each(function(paymentAccount, i) {
-                    var currentPaymentAccount = api.cell(i, 10).data();
+                    var currentPaymentAccount = api.cell(i, 12).data();
                     var currentAmount = api.cell(i, 3).data();
 
                     if (lastPaymentAccount !== currentPaymentAccount) {
                         if (lastPaymentAccount !== null) {
                             $(rows).eq(i - 1).after(
-                                '<tr class="bg-success"><td colspan="14" class="text-center h6 text-white fw-bold">Total Amount: ' +
+                                '<tr class="bg-success"><td colspan="16" class="text-center h6 text-white fw-bold">Total Amount: ' +
                                 totalAmount.toLocaleString('id-ID') + '</td></tr>'
                             );
                         }
@@ -466,7 +488,7 @@
                         lastPaymentAccount = currentPaymentAccount;
 
                         $(rows).eq(i).before(
-                            '<tr class="group bg-dark fw-bold text-white text-center h6"><td colspan="14">Nomor E-wallet : ' +
+                            '<tr class="group bg-dark fw-bold text-white text-center h6"><td colspan="16">Nomor E-wallet : ' +
                             currentPaymentAccount + '</td></tr>'
                         );
                     }
@@ -476,7 +498,7 @@
 
                 if (lastPaymentAccount !== null) {
                     $(rows).eq(-1).after(
-                        '<tr class="bg-success"><td colspan="14" class="text-center h6 text-white fw-bold">Total Amount: ' +
+                        '<tr class="bg-success"><td colspan="16" class="text-center h6 text-white fw-bold">Total Amount: ' +
                         totalAmount.toLocaleString('id-ID') + '</td></tr>'
                     );
                 }
@@ -539,7 +561,7 @@
 
             selectDropdown.on('change', function() {
                 var paymentMethod = $(this).val();
-                table.column(10).search(paymentMethod || '').draw();
+                table.column(12).search(paymentMethod || '').draw();
             });
 
             selectStatusDropdown.on('change', function() {

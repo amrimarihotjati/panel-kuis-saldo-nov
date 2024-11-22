@@ -11,6 +11,7 @@ use App\Models\HistoryCollectedPoint;
 use App\Models\CompletedArticlePoint;
 use App\Models\RewardsAdPoints;
 use App\Models\HistoryQuiz;
+use App\Models\Question;
 use App\Models\AdsCounterTemporary;
 use App\Models\QuizCompleted;
 use App\Models\BlacklistNumberWallet;
@@ -125,6 +126,71 @@ class WithdrawalController extends Controller
         })
         ->addColumn('withdraw_count_by_nomor', function ($withdrawal) {
             return Withdrawal::where('payment_account', $withdrawal->payment_account)->count();
+        })
+        ->addColumn('validCountQuiz', function ($withdrawal) {
+            $historyQuiz = HistoryQuiz::where('player_id', $withdrawal->player_id)
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
+            ->get();
+
+            $validCount = 0;
+            $invalidCount = 0;
+
+            foreach ($historyQuiz as $quiz) {
+                $totalPointFromQuestionCategory = Question::where('category_id', $quiz->category_id)
+                ->where('level', $quiz->category_level)
+                ->sum('points');
+                $withDoubleOption = $quiz->with_double_option ?? 0;
+                if ($withDoubleOption == 1) {
+                    if ($quiz->points > ($totalPointFromQuestionCategory + 300)) {
+                        $invalidCount++;
+                    } else {
+                        $validCount++;
+                    }
+                } else {
+                    if ($quiz->points <= $totalPointFromQuestionCategory) {
+                        $validCount++;
+                    } else if ($quiz->points > $totalPointFromQuestionCategory) {
+                        $invalidCount++;
+                    } else {
+                        $validCount++;
+                    }
+                }
+            }
+            return $validCount;
+        })
+        ->addColumn('invalidCountQuiz', function ($withdrawal) {
+
+            $historyQuiz = HistoryQuiz::where('player_id', $withdrawal->player_id)
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
+            ->get();
+
+            $validCount = 0;
+            $invalidCount = 0;
+
+            foreach ($historyQuiz as $quiz) {
+                $totalPointFromQuestionCategory = Question::where('category_id', $quiz->category_id)
+                ->where('level', $quiz->category_level)
+                ->sum('points');
+                $withDoubleOption = $quiz->with_double_option ?? 0;
+                if ($withDoubleOption == 1) {
+                    if ($quiz->points > ($totalPointFromQuestionCategory + 300)) {
+                        $invalidCount++;
+                    } else {
+                        $validCount++;
+                    }
+                } else {
+                    if ($quiz->points <= $totalPointFromQuestionCategory) {
+                        $validCount++;
+                    } else if ($quiz->points > $totalPointFromQuestionCategory) {
+                        $invalidCount++;
+                    } else {
+                        $validCount++;
+                    }
+                }
+            }
+            return $invalidCount;
         })
         ->addColumn('ad_inters_count', function ($withdrawal) {
             $completedArticleInters = CompletedArticlePoint::query()
