@@ -281,6 +281,64 @@ class WithdrawalController extends Controller
         ->toJson();
     }
 
+    public function getDTWithdrawalRangeAccepted($app_pkg, $startDate, $endDate)
+    {
+        $startDate = \Carbon\Carbon::parse($startDate)->startOfDay();
+        $endDate = \Carbon\Carbon::parse($endDate)->endOfDay();
+
+        $appPackages = explode(',', $app_pkg);
+
+        $query = Withdrawal::query()
+        ->with('player')
+        ->with('paymentMethod')
+        ->where('status', 1)
+        ->whereIn('player_pkg', $appPackages)
+        ->whereBetween('updated_at', [$startDate, $endDate]);
+
+        return Datatables::eloquent($query)
+        ->filter(function ($query) use ($appPackages) {
+            if (request()->has('search')) {
+                $search = request()->get('search')['value'];
+                $query->whereHas('player', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('id', 'LIKE', "%{$search}%");
+                });
+                $query->whereIn('player_pkg', $appPackages);
+            }
+        })
+        ->toJson();
+    }
+
+    public function getDTWithdrawalRangeRejected($app_pkg, $startDate, $endDate)
+    {
+        $startDate = \Carbon\Carbon::parse($startDate)->startOfDay();
+        $endDate = \Carbon\Carbon::parse($endDate)->endOfDay();
+
+        $appPackages = explode(',', $app_pkg);
+
+        $query = Withdrawal::query()
+        ->with('player')
+        ->with('paymentMethod')
+        ->where('status', 2)
+        ->whereIn('player_pkg', $appPackages)
+        ->whereBetween('updated_at', [$startDate, $endDate]);
+
+        return Datatables::eloquent($query)
+        ->filter(function ($query) use ($appPackages) {
+            if (request()->has('search')) {
+                $search = request()->get('search')['value'];
+                $query->whereHas('player', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%")
+                    ->orWhere('email', 'LIKE', "%{$search}%")
+                    ->orWhere('id', 'LIKE', "%{$search}%");
+                });
+                $query->whereIn('player_pkg', $appPackages);
+            }
+        })
+        ->toJson();
+    }
+
     public function getCountWithdrawal(Request $request)
     {
         $data = Withdrawal::select('*')->orderBy('created_at', 'desc')->get();

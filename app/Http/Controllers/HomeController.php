@@ -93,6 +93,18 @@ class HomeController extends Controller
         return view('layouts/page/analytics/data-withdrawals', compact('mBaseApplication'));
     }
 
+    public function goAnalyticsWithdrawalsAccepted(Request $request)
+    {
+        $mBaseApplication = BaseApplication::all();
+        return view('layouts/page/analytics/data-withdrawals-accepted', compact('mBaseApplication'));
+    }
+
+    public function goAnalyticsWithdrawalsRejected(Request $request)
+    {
+        $mBaseApplication = BaseApplication::all();
+        return view('layouts/page/analytics/data-withdrawals-rejected', compact('mBaseApplication'));
+    }
+
     public function index(Request $request)
     {
         $appCount = BaseApplication::get()->count();

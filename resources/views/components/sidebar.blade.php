@@ -16,6 +16,12 @@
             <li class="{{ Request::is('analytics/withdrawals') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('goAnalyticsWithdrawals') }}"><i class="fas fa-chart-line"></i><span>Data Withdraw</span></a>
             </li>
+            <li class="{{ Request::is('analytics/withdrawals/accepted') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('goAnalyticsWithdrawalsAccepted') }}"><i class="fas fa-chart-line"></i><span>Withdraw Accepted</span></a>
+            </li>
+            <li class="{{ Request::is('analytics/withdrawals/rejected') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('goAnalyticsWithdrawalsRejected') }}"><i class="fas fa-chart-line"></i><span>Withdraw Rejected</span></a>
+            </li>
             <li class="{{ Request::is('analytics/player-activity') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('goAnalyticsPlayerActivity') }}"><i class="far fa-chart-bar"></i><span>Data Aktivitas Player</span></a>
             </li>

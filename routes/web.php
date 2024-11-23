@@ -39,7 +39,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/analytics-data/history-quiz/{app_pkg}/{startDate}/{endDate}', [App\Http\Controllers\HistoryQuizController::class, 'getDTHistoryQuizRange'])->name('loadAnalyticsHistoryQuiz');
 
     Route::get('/analytics/withdrawals', [App\Http\Controllers\HomeController::class, 'goAnalyticsWithdrawals'])->name('goAnalyticsWithdrawals');
+    Route::get('/analytics/withdrawals/accepted', [App\Http\Controllers\HomeController::class, 'goAnalyticsWithdrawalsAccepted'])->name('goAnalyticsWithdrawalsAccepted');
+    Route::get('/analytics/withdrawals/rejected', [App\Http\Controllers\HomeController::class, 'goAnalyticsWithdrawalsRejected'])->name('goAnalyticsWithdrawalsRejected');
+
     Route::get('/analytics-data/withdrawals/{app_pkg}/{startDate}/{endDate}', [App\Http\Controllers\WithdrawalController::class, 'getDTWithdrawalRange'])->name('getDTWithdrawalRange');
+    Route::get('/analytics-data/withdrawals/accepted/{app_pkg}/{startDate}/{endDate}', [App\Http\Controllers\WithdrawalController::class, 'getDTWithdrawalRangeAccepted'])->name('getDTWithdrawalRangeAccepted');
+    Route::get('/analytics-data/withdrawals/rejected/{app_pkg}/{startDate}/{endDate}', [App\Http\Controllers\WithdrawalController::class, 'getDTWithdrawalRangeRejected'])->name('getDTWithdrawalRangeRejected');
 
     Route::get('/analytics/player-activity', [App\Http\Controllers\HomeController::class, 'goAnalyticsPlayerActivity'])->name('goAnalyticsPlayerActivity');
     Route::get('/analytics-data/player-activity/{app_pkg}/{startDate}/{endDate}', [App\Http\Controllers\HistoryQuizController::class, 'getDTHistoryQuizRangeActivity'])->name('getDTHistoryQuizRangeActivity');
