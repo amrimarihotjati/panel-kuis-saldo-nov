@@ -25,9 +25,9 @@ class PlayerFactory extends Factory
         return [
             'name' => $this->faker->name,
             'email' => $this->faker->unique()->safeEmail,
-            'score' => $this->faker->numberBetween(0, 10000),
-            'points' => $this->faker->numberBetween(0, 10000),
-            'points_collected' => $this->faker->numberBetween(0, 10000) + 5000,
+            'score' => $this->faker->numberBetween(0, 0),
+            'points' => $this->faker->numberBetween(0, 0),
+            'points_collected' => $this->faker->numberBetween(0, 0) + 0,
             'referral_code' => $randomString,
             'status' => $this->faker->numberBetween(0, 2),
             'password' => bcrypt('password'), 

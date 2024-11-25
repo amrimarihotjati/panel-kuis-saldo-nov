@@ -272,13 +272,15 @@
                         "search": "<b>Cari ID, Nama atau Email : </b>",
                         "zeroRecords": "Tidak ditemukan",
                     },
-                    initComplete: function(settings, json) {
-                        // console.log(json);
+                    drawCallback: function(settings) {
                         var totalAmount = 0;
-                        table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                        var table = this.api();
+
+                        table.rows({ search: 'applied' }).every(function(rowIdx, tableLoop, rowLoop) {
                             var data = this.data();
                             totalAmount += parseFloat(data.amount) || 0;
                         });
+
                         var formatter = new Intl.NumberFormat('id-ID', {
                             minimumFractionDigits: 0,
                             maximumFractionDigits: 0
@@ -286,6 +288,20 @@
                         $('#countTotalWithdraw').text('Rp.' + formatter.format(totalAmount));
                         updateChart(table);
                     }
+                    // initComplete: function(settings, json) {
+                    //     // console.log(json);
+                    //     var totalAmount = 0;
+                    //     table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+                    //         var data = this.data();
+                    //         totalAmount += parseFloat(data.amount) || 0;
+                    //     });
+                    //     var formatter = new Intl.NumberFormat('id-ID', {
+                    //         minimumFractionDigits: 0,
+                    //         maximumFractionDigits: 0
+                    //     });
+                    //     $('#countTotalWithdraw').text('Rp.' + formatter.format(totalAmount));
+                    //     updateChart(table);
+                    // }
                 });
             });
         }

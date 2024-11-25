@@ -70,4 +70,9 @@ class Withdrawal extends Model
         return $this->belongsTo(PaymentMethod::class, 'payment_method');
     }
 
+    public function historyQuiz()
+    {
+        return $this->belongsTo(HistoryQuiz::class, 'player_id');
+    }
+
 }

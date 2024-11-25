@@ -6,6 +6,9 @@
             <li class="{{ Request::is('home') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('home') }}"><i class="fas fa-fire"></i><span>Dashboard</span></a>
             </li>
+            <li class="{{ Request::is('homeWithdraw') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('homeWithdraw') }}"><i class="fas fa-fire"></i><span>Dashboard Withdraw</span></a>
+            </li>
             <li class="menu-header">Analytics</li>
             <li class="{{ Request::is('analytics/collected-points') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('goAnalyticsCollectedPoint') }}"><i class="fas fa-chart-area"></i><span>Data Collected Point</span></a>

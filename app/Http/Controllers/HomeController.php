@@ -11,6 +11,7 @@ use App\Models\Avatar;
 use App\Models\Badge;
 use App\Models\CategoryQuiz;
 use App\Models\RewardsAdPoints;
+use App\Models\Withdrawal;
 
 use Yajra\DataTables\Facades\DataTables;
 
@@ -116,6 +117,36 @@ class HomeController extends Controller
         $rewardsAdPointCount = RewardsAdPoints::get()->count();
 
         return view('home', compact('appCount', 'bannerCount', 'avatarCount', 'badgeCount','categoryQuizCount', 'dagetCount', 'rewardsAdPointCount'));
+    }
+
+    public function homeWithdraw(Request $request)
+    {
+        $withdrawPending = Withdrawal::where('status', 0)
+        ->get()
+        ->count();
+        $withdrawPendingSum = Withdrawal::where('status', 0)
+        ->get()
+        ->sum('amount');
+
+        $withdrawAccepted = Withdrawal::where('status', 1)
+        ->get()
+        ->count();
+        $withdrawAcceptedSum = Withdrawal::where('status', 1)
+        ->get()
+        ->sum('amount');
+
+        $withdrawRejected = Withdrawal::where('status', 2)
+        ->get()
+        ->count();
+        $withdrawRejectedSum = Withdrawal::where('status', 2)
+        ->get()
+        ->sum('amount');
+
+        $withdrawPendingSum = number_format($withdrawPendingSum, 2, ',', '.');
+        $withdrawAcceptedSum = number_format($withdrawAcceptedSum, 2, ',', '.');
+        $withdrawRejectedSum = number_format($withdrawRejectedSum, 2, ',', '.');
+
+        return view('home-withdraw', compact('withdrawPending', 'withdrawAccepted', 'withdrawRejected', 'withdrawPendingSum', 'withdrawAcceptedSum', 'withdrawRejectedSum'));
     }
 
     public function blank()

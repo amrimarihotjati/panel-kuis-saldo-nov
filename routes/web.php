@@ -22,6 +22,17 @@ Route::middleware(['auth'])->group(function () {
 
     // home
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/homeWithdraw', [App\Http\Controllers\HomeController::class, 'homeWithdraw'])->name('homeWithdraw');
+
+    // WD DASHBOARD
+    Route::get('/dashboard/wd/all', [App\Http\Controllers\DashboardWithdrawalController::class, 'getDatatableWithdrawAllMethodPending'])->name('getDatatableWithdrawAllMethodPending');
+    Route::get('/dashboard/wd/dana', [App\Http\Controllers\DashboardWithdrawalController::class, 'getDatatableWithdrawDanaPending'])->name('getDatatableWithdrawDanaPending');
+    Route::get('/dashboard/wd/ovo', [App\Http\Controllers\DashboardWithdrawalController::class, 'getDatatableWithdrawOvoPending'])->name('getDatatableWithdrawOvoPending');
+    Route::get('/dashboard/wd/gopay', [App\Http\Controllers\DashboardWithdrawalController::class, 'getDatatableWithdrawShoopepayPending'])->name('getDatatableWithdrawShoopepayPending');
+    Route::get('/dashboard/wd/shoopepay', [App\Http\Controllers\DashboardWithdrawalController::class, 'getDatatableWithdrawGopayPending'])->name('getDatatableWithdrawGopayPending');
+    Route::get('/dashboard/wd/linkaja', [App\Http\Controllers\DashboardWithdrawalController::class, 'getDatatableWithdrawLinkajaPending'])->name('getDatatableWithdrawLinkajaPending');
+    Route::get('/getDataPlayerStatisticForWithdraw/{withdrawalId}', [App\Http\Controllers\DashboardWithdrawalController::class, 'getDataPlayerStatisticForWithdraw'])->name('getDataPlayerStatisticForWithdraw');
+    
     Route::get('/base-application', [App\Http\Controllers\HomeController::class, 'goBaseApplication'])->name('goBaseApplication');
     Route::get('/banner', [App\Http\Controllers\HomeController::class, 'goBanner'])->name('goBanner');
     Route::get('/avatar', [App\Http\Controllers\HomeController::class, 'goAvatar'])->name('goAvatar');
