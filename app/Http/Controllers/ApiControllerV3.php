@@ -1007,6 +1007,7 @@ class ApiControllerV3 extends Controller
         }
 
         $mPlayerList = Player::where('player_pkg', $head_app_pkg)
+        ->where('status', 0)
         ->orderBy('score', 'desc')
         ->limit(50)
         ->get();
